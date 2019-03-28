@@ -1,6 +1,7 @@
 import config
 import tweetbot
 import telebot
+import os
 from flask import Flask, request
 
 bot = telebot.TeleBot(config.telegram_token)
@@ -38,7 +39,7 @@ def send_tweet(message):
 	bot.send_message(message.chat.id, tweetbot.sendtweet(message.text))
 
 
-@server.route('/' + token, methods=['POST'])
+@server.route('/' + config.telegram_token, methods=['POST'])
 def getMessage():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "!", 200
@@ -47,7 +48,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://anontweet.herokuapp.com/' + config.token)
+    bot.set_webhook(url='https://anontweet.herokuapp.com/' + config.telegram_token)
     return "!", 200
 
 
