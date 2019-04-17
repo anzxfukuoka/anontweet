@@ -12,6 +12,7 @@ server = Flask(__name__)
 def send_welcome(message):
 	#bot.reply_to(message, "https://twitter.com/penayongbumi")
 	bot.send_message(message.chat.id, "отправь мне что-нибудь и я это твитну.")
+	print("new user: " + message.from_user.username)
 
 
 @bot.message_handler(commands=['help'])
@@ -36,7 +37,11 @@ def send_msg_to_twuser(message):
 
 @bot.message_handler(func=lambda message: True)
 def send_tweet(message):
-	bot.send_message(message.chat.id, tweetbot.sendtweet(message.text))
+	txt = message.text
+	if len(txt) > tweetbot.max:
+		bot.send_message(message.chat.id, tweetbot.startthread(txt))
+	else:
+		bot.send_message(message.chat.id, tweetbot.sendtweet(txt))
 
 
 @server.route('/' + config.telegram_token, methods=['POST'])
@@ -53,7 +58,10 @@ def webhook():
 
 
 if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+    #server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
     pass
 
-#bot.polling()
+
+#dbg
+bot.remove_webhook()
+bot.polling()
