@@ -1,3 +1,2 @@
-call %~dp0venv\Scripts\activate.bat 
+call %~dp0env\Scripts\activate.bat 
 py telegrambot.py
-pause
