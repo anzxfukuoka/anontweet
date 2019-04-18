@@ -12,7 +12,6 @@ pyTelegramBotAPI==3.6.6
 requests==2.7.0
 requests-oauthlib==1.2.0
 six==1.12.0
-telebot==0.0.3
 tweepy==3.7.0
 urllib3==1.24.1
 Werkzeug==0.15.1
